@@ -15,10 +15,17 @@ fi
 if [ ! -z "$ADVERTISED_HOST" ]; then
     echo "advertised host: $ADVERTISED_HOST"
     sed -r -i "s/#(advertised.host.name)=(.*)/\1=$ADVERTISED_HOST/g" $KAFKA_HOME/config/server.properties
+else
+    MY_DOCKER_IP=$(cat /etc/hosts | grep "`hostname`" | awk '{print $1}')
+    echo "Using my docker host IP ad advertised host: $MY_DOCKER_IP"
+    sed -r -i "s/#(advertised.host.name)=(.*)/\1=$MY_DOCKER_IP/g" $KAFKA_HOME/config/server.properties
 fi
 if [ ! -z "$ADVERTISED_PORT" ]; then
     echo "advertised port: $ADVERTISED_PORT"
     sed -r -i "s/#(advertised.port)=(.*)/\1=$ADVERTISED_PORT/g" $KAFKA_HOME/config/server.properties
+else
+    echo "Using default port as advertised port: 9092"
+    sed -r -i "s/#(advertised.port)=(.*)/\1=9092/g" $KAFKA_HOME/config/server.properties
 fi
 
 # Set the zookeeper chroot
