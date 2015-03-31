@@ -1,7 +1,7 @@
 Kafka in Docker
 ===
 
-This repository provides everything you need to run Kafka in Docker.
+This repository provides everything you need to run Kafka in Docker. This is based on spotify/kafka but upgraded to kafka 0.8.2.1 and defaults the ADVERTISED_HOST and ADVERTISED_PORT to the local docker0 IP for easy internal linking
 
 Why?
 ---
@@ -31,7 +31,7 @@ kafka-console-consumer.sh --zookeeper $ZOOKEEPER --topic test
 
 In the box
 ---
-* **spotify/kafka**
+* **ahmedsoliman/kafka**
 
   The docker image with both Kafka and Zookeeper. Built from the `kafka`
   directory.
@@ -39,17 +39,12 @@ In the box
 Public Builds
 ---
 
-https://registry.hub.docker.com/u/spotify/kafka/
+https://registry.hub.docker.com/u/ahmedsoliman/kafka/
 
 Build from Source
 ---
 
-    docker build -t spotify/kafka kafka/
+    docker build -t ahmedsoliman/kafka kafka/
 
 
-Todo
----
-
-* Not particularily optimzed for startup time.
-* Better docs
 
