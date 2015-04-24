@@ -1,4 +1,4 @@
-Kafka in Docker
+Kafka & Exhibitor in Docker
 ===
 
 This repository provides everything you need to run Kafka in Docker. This is based on spotify/kafka but upgraded to kafka 0.8.2.1 and defaults the ADVERTISED_HOST and ADVERTISED_PORT to the local docker0 IP for easy internal linking
@@ -11,12 +11,13 @@ in the same container. This means:
 
 * No dependency on an external Zookeeper host, or linking to another container
 * Zookeeper and Kafka are configured to work together out of the box
+* Exhibitor is included so you can use Curator for connections
 
 Run
 ---
 
 ```bash
-docker run -p 2181:2181 -p 9092:9092 --env ADVERTISED_HOST=`boot2docker ip` --env ADVERTISED_PORT=9092 ahmedsoliman/kafka
+docker run -p 2181:2181 -p 9092:9092 -p 8181:8181 --env ADVERTISED_HOST=`boot2docker ip` --env ADVERTISED_PORT=9092 sheeley/docker-kafka-exhibitor
 ```
 
 ```bash
@@ -29,22 +30,13 @@ export ZOOKEEPER=`boot2docker ip`:2181
 kafka-console-consumer.sh --zookeeper $ZOOKEEPER --topic test
 ```
 
-In the box
----
-* **ahmedsoliman/kafka**
-
-  The docker image with both Kafka and Zookeeper. Built from the `kafka`
-  directory.
-
 Public Builds
 ---
 
-https://registry.hub.docker.com/u/ahmedsoliman/kafka/
+https://registry.hub.docker.com/u/sheeley/docker-kafka-exhibitor
 
-Build from Source
+
+Forked from
 ---
-
-    docker build -t ahmedsoliman/kafka kafka/
-
-
-
+- https://github.com/spotify/docker-kafka
+- https://github.com/mbabineau/docker-zk-exhibitor
