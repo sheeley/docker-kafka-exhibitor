@@ -1,9 +1,10 @@
-#/bin/bash -e
+#!/bin/bash -e
 
 # Generates the default exhibitor config and launches exhibitor
 
-MISSING_VAR_MESSAGE="must be set"
-: ${HOSTNAME:?$MISSING_VAR_MESSAGE}
+if [ -z "$ADVERTISED_HOST" ]; then
+    ADVERTISED_HOST=$(cat /etc/hosts | grep "`hostname`" | awk '{print $1}')
+fi
 
 cat <<- EOF > /opt/exhibitor/defaults.conf
     zookeeper-data-directory=/opt/zookeeper/snapshots
@@ -23,7 +24,6 @@ cat <<- EOF > /opt/exhibitor/defaults.conf
     auto-manage-instances-settling-period-ms=0
     auto-manage-instances=1
 EOF
-fi
 
 exec 2>&1
 
@@ -34,5 +34,5 @@ exec 2>&1
 
 java -jar /opt/exhibitor/exhibitor.jar \
     --port 8181 --defaultconfig /opt/exhibitor/defaults.conf \
-    --configtype file --hostname ${HOSTNAME}
+    --configtype file --hostname ${ADVERTISED_HOST}
 

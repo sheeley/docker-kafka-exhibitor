@@ -5,6 +5,7 @@
 # * ADVERTISED_PORT: the external port for Kafka, e.g. 9092
 # * ZK_CHROOT: the zookeeper chroot that's used by Kafka (without / prefix), e.g. "kafka"
 
+
 # Configure advertised host/port if we run in helios
 if [ ! -z "$HELIOS_PORT_kafka" ]; then
     ADVERTISED_HOST=`echo $HELIOS_PORT_kafka | cut -d':' -f 1 | xargs -n 1 dig +short | tail -n 1`
@@ -31,12 +32,12 @@ fi
 # Set the zookeeper chroot
 if [ ! -z "$ZK_CHROOT" ]; then
     # wait for zookeeper to start up
-    until /usr/share/zookeeper/bin/zkServer.sh status; do
+    until /opt/zookeeper/bin/zkServer.sh status; do
       sleep 0.1
     done
 
     # create the chroot node
-    echo "create /$ZK_CHROOT \"\"" | /usr/share/zookeeper/bin/zkCli.sh || {
+    echo "create /$ZK_CHROOT \"\"" | /opt/zookeeper/bin/zkCli.sh || {
         echo "can't create chroot in zookeeper, exit"
         exit 1
     }
