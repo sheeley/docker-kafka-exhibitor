@@ -29,12 +29,13 @@ else
     sed -r -i "s/#(advertised.port)=(.*)/\1=9092/g" $KAFKA_HOME/config/server.properties
 fi
 
+# wait for zk to start... embedding together in same script seems problematic.
+until /opt/zookeeper/bin/zkServer.sh status; do
+    sleep 0.1
+done
+
 # Set the zookeeper chroot
 if [ ! -z "$ZK_CHROOT" ]; then
-    # wait for zookeeper to start up
-    until /opt/zookeeper/bin/zkServer.sh status; do
-      sleep 0.1
-    done
 
     # create the chroot node
     echo "create /$ZK_CHROOT \"\"" | /opt/zookeeper/bin/zkCli.sh || {
@@ -45,10 +46,6 @@ if [ ! -z "$ZK_CHROOT" ]; then
     # configure kafka
     sed -r -i "s/(zookeeper.connect)=(.*)/\1=localhost:2181\/$ZK_CHROOT/g" $KAFKA_HOME/config/server.properties
 fi
-
-# until /opt/zookeeper/bin/zkServer.sh status; do
-#     sleep 0.1
-# done
 
 # Run Kafka
 $KAFKA_HOME/bin/kafka-server-start.sh $KAFKA_HOME/config/server.properties
