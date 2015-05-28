@@ -23,6 +23,7 @@ cat <<- EOF > /opt/exhibitor/defaults.conf
     zoo-cfg-extra=tickTime\=2000&initLimit\=10&syncLimit\=5&quorumListenOnAllIPs\=true
     auto-manage-instances-settling-period-ms=0
     auto-manage-instances=1
+    servers-spec=S:1:$ADVERTISED_HOST
 EOF
 
 exec 2>&1
