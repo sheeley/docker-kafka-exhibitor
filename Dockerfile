@@ -5,7 +5,7 @@ ENV EXHIBITOR_POM="https://raw.githubusercontent.com/Netflix/exhibitor/d911a16d7
 ENV KAFKA_HOME="/opt/kafka"
 ENV ZK_RELEASE="http://www.apache.org/dist/zookeeper/zookeeper-3.4.6/zookeeper-3.4.6.tar.gz"
 ENV MVN_RELEASE="http://mirror.nexcess.net/apache/maven/maven-3/3.3.1/binaries/apache-maven-3.3.1-bin.tar.gz"
-ENV KAFKA_RELEASE="http://apache.mirrors.spacedump.net/kafka/0.8.2.1/kafka_2.10-0.8.2.1.tgz"
+ENV KAFKA_RELEASE="http://www.carfab.com/apachesoftware/kafka/0.8.2.2/kafka_2.10-0.8.2.2.tgz"
 
 # Install Kafka, Zookeeper and other needed things
 RUN DEBIAN_FRONTEND="noninteractive" \
